@@ -6,8 +6,8 @@ from .models import Question
 
 def index(request):
     latest_question_list = Question.objects.order_by('-pub_date')[:5]   # order_by('속성명') : 오름차순, ('-속성명') : 내림차순
-    output = " ,".join([q.question_text for q in latest_question_list]) # 리스트를 문자열로 바꿔주고 " ,"로 원소 중간중간 넣어주겠다는 것.
-    return HttpResponse(output)
+    context = {'latest_question_list' : latest_question_list}
+    return render(request, 'polls/index.html', context)
 
 def detail(request, question_id):
     return HttpResponse("You're looking at question %s." % question_id)
