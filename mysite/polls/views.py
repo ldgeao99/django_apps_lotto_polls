@@ -1,4 +1,4 @@
-from django.shortcuts import render, Http404
+from django.shortcuts import render, Http404, get_object_or_404
 
 # Create your views here.
 from django.http import HttpResponse
@@ -10,12 +10,8 @@ def index(request):
     return render(request, 'polls/index.html', context)
 
 def detail(request, question_id): # question_id은 url로 전달받은 값
-    try:
-        q = Question.objects.get(pk = question_id)
 
-    except Question.DoesNotExist:
-        raise Http404("Question %s does not exist" % question_id)
-
+    q = get_object_or_404(Question, pk = question_id) #존재하지 않을 경우 404페이지를 띄움
     return render(request, 'polls/detail.html', {'question' : q})
 
 def results(request, question_id):
