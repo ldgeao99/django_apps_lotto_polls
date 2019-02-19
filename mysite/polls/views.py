@@ -15,8 +15,8 @@ def detail(request, question_id): # question_id은 url로 전달받은 값
     return render(request, 'polls/detail.html', {'question' : q})
 
 def results(request, question_id):
-    response = "You're looking at the results of question %s."
-    return HttpResponse(response % question_id)
+    question = get_object_or_404(Question, pk = question_id)
+    return render(request, 'polls/results.html', {'question': question})
 
 def vote(request, question_id):
     question = get_object_or_404(Question, pk = question_id)
