@@ -7,8 +7,7 @@ from . import views
 app_name = 'polls'
 
 urlpatterns = [
-    #리스트뷰는 똑같은 것만 보여주는 페이지 이기 때문에 파라미터를 받지 않는다.
-    url(r'^$', views.IndexView.as_view(), name = 'index'),
+    url(r'^$', views.IndexView.as_view(), name = 'index'), #ListView는 내부에서 지정한 객체들을 가져오므로 파라미터를 받지 않는다.
     url(r'^(?P<pk>[0-9]+)/$', views.DetailView.as_view(), name = "detail"),
     url(r'^(?P<pk>[0-9]+)/results/$', views.ResultsView.as_view(), name = "results"),
     url(r'^(?P<question_id>[0-9]+)/vote/$', views.vote, name = "vote"),
