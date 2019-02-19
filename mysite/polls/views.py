@@ -1,4 +1,4 @@
-from django.shortcuts import render, Http404, get_object_or_404
+from django.shortcuts import render, Http404, get_object_or_404, redirect
 
 # Create your views here.
 from django.http import HttpResponse
@@ -19,4 +19,16 @@ def results(request, question_id):
     return HttpResponse(response % question_id)
 
 def vote(request, question_id):
-    return  HttpResponse("You're voting on question %s." % question_id)
+    question = get_object_or_404(Question, pk = question_id)
+
+    try:
+        selected_choice = question.choice_set.get(pk = request.POST['choice']) # id가 choice인 것의 vlaue 값을 읽어옴
+    except:
+        return render(request, 'polls/detail.html', {
+            'question' : question,
+            'error_message' : "You didn't select a choice"
+        })
+    else: #예외가 발생하지 않은경우
+        selected_choice.votes += 1  # 모델 객체의 값 변경
+        selected_choice.save()      # DB에 반영
+        return redirect('polls:results', question_id = question_id)
