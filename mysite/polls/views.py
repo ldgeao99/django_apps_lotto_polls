@@ -5,6 +5,10 @@ from django.http import HttpResponse
 from .models import Question
 from django.views import generic
 from django.utils import timezone
+
+def main(request):
+    return render(request, 'polls/main.html', {})
+
 '''
 def index(request):
     latest_question_list = Question.objects.order_by('-pub_date')[:5]   # order_by('속성명') : 오름차순, ('-속성명') : 내림차순
@@ -59,3 +63,4 @@ def vote(request, question_id):
         selected_choice.save()      # DB에 반영
         #return redirect('polls:results', question_id = question_id)
         return redirect('polls:results', pk=question_id)
+
