@@ -13,7 +13,8 @@ class Question(models.Model):
         return self.question_text
     # 객체가 가지고 있는 날짜 >= 하루전의 시간(어제)라면 True
     def was_published_recently(self):
-        return self.pub_date >= timezone.now() - datetime.timedelta(days=1) # 어제 = (현재시간 - 하루)
+        now = timezone.now()
+        return now - datetime.timedelta(days=1) <= self.pub_date <= now
 
 class Choice(models.Model):
     #  Foeign Key 설정, on_delete 설정 : 참조한 키가 삭제되면 그 키와 관련된 데이터를 같이 삭제해주세요
