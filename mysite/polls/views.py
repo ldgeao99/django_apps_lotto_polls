@@ -4,7 +4,7 @@ from django.shortcuts import render, Http404, get_object_or_404, redirect
 from django.http import HttpResponse
 from .models import Question
 from django.views import generic
-
+from django.utils import timezone
 '''
 def index(request):
     latest_question_list = Question.objects.order_by('-pub_date')[:5]   # order_by('속성명') : 오름차순, ('-속성명') : 내림차순
@@ -18,7 +18,9 @@ class IndexView(generic.ListView):   # 객체를 리스트 형태로 전달하�
     context_object_name = 'latest_question_list'        # index.html에서 이 이름으로 변수에 접근 가능
     # 오브젝트 가져오기
     def get_queryset(self):
-        return Question.objects.order_by('-pub_date')[:5]
+        return Question.objects.filter(
+            pub_date__lte=timezone.now() # pub_date가 현재시간보다 작은것만 필터링.   여기서 lte는 less than equal
+        ).order_by('-pub_date')[:5]
 
 '''
 def detail(request, question_id): # question_id은 url로 전달받은 값
