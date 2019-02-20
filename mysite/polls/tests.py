@@ -4,6 +4,18 @@ from django.test import TestCase
 import  datetime
 from django.utils import  timezone
 from .models import Question
+from django.urls import reverse
+
+def create_question(question_text, days):
+    time = timezone.now() + datetime.timedelta(days=days)
+    return Question.objects.create(question_text=question_text, pub_date = time)
+
+class QuestionViewTests(TestCase):
+    def test_index_view_with_future_question(self):
+        create_question(question_text='Future question', days=30)
+        response = self.client.get(reverse('polls:index'))
+        self.assertEqual(response.status_code, 200)                            # 상태코드가 200이야?
+        self.assertQuerysetEqual(response.context['latest_question_list'], []) # 쿼리셋 결과가 []이야?
 
 class QuestionMethodsTests(TestCase):
     # 7일 미래의 시간을 테스트하는 코드
