@@ -16,8 +16,10 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import include
+from polls import views
 
 urlpatterns = [
+    url(r'^$', views.main, name = 'name'),
     url(r'^admin/', admin.site.urls),
     url(r'^polls/', include('polls.urls')),
     url(r'^lotto/', include('lotto.urls')),
