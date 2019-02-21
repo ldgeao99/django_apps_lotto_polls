@@ -1,1 +1,1 @@
-# django_app2_polls
+# django_apps_lotto_polls
